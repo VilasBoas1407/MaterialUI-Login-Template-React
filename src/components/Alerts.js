@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
@@ -6,11 +6,17 @@ import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import AlertTitle from "@mui/material/AlertTitle";
 
-export default function Alerts({ config, setConfig }) {
+export default function Alerts({ config = null, onClick = () => {} }) {
+  if (config === undefined) return null;
+
   if (config.open) {
+    clearTimeout();
     setTimeout(() => {
-      setConfig({ ...config, open: false });
-    }, 3000);
+      onClick();
+    }, 5000);
+  }
+  function handleClick() {
+    onClick();
   }
 
   return (
@@ -24,7 +30,7 @@ export default function Alerts({ config, setConfig }) {
               color="inherit"
               size="small"
               onClick={() => {
-                setConfig({ ...config, open: false });
+                handleClick();
               }}
             >
               <CloseIcon fontSize="inherit" />

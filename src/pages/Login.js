@@ -20,11 +20,7 @@ import api from "../service/api";
 const theme = createTheme();
 
 export default function Login() {
-  const [modal, setModal] = useState({
-    open: false,
-    message: "",
-    type: "error",
-  });
+  const [modal, setModal] = useState({});
 
   const [form, setForm] = useState({
     email: "",
@@ -55,7 +51,14 @@ export default function Login() {
         }
       })
       .catch((error) => {
-        if (error.response.data) {
+        if (error.response.status === 400) {
+          console.log("Error");
+          setModal({
+            open: true,
+            message: "Favor preencher os campos corretamente.",
+            type: "error",
+          });
+        } else if (error.response.data) {
           setModal({
             open: true,
             message: error.response.data,
@@ -134,13 +137,13 @@ export default function Login() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/register" variant="body2">
                   {"Cadastrar-se"}
                 </Link>
               </Grid>
             </Grid>
             <br />
-            <Alerts config={modal} setConfig={setModal} />
+            <Alerts config={modal} onClick={() => setModal({ open: false })} />
           </Box>
         </Box>
       </Container>
