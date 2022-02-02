@@ -17,6 +17,7 @@ export default function Alerts({ config = null, onClick = () => {} }) {
   }
   function handleClick() {
     onClick();
+    console.log("Clicked");
   }
 
   return (
